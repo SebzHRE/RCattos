@@ -415,6 +415,12 @@ func _process(_delta):
 	elif $jw.selected == true:
 		sel_name = "Jawari"
 		sel_desc = "First son of Sy and El. Callous and shallow"
+	elif $an.selected == true:
+		sel_name = "Anuka"
+		sel_desc = "Psychopathic cannibal-murderer."
+	elif $ab.selected == true:
+		sel_name = "Albara"
+		sel_desc = "Anuka's brother. Timid and shy."
 	else:
 		sel_name = ""
 		sel_desc = ""

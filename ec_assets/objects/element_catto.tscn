@@ -1890,7 +1890,6 @@ speed_scale = 0.0
 [node name="eye1" type="AnimatedSprite2D" parent="model/face" unique_id=1081601559]
 position = Vector2(-14, -4)
 sprite_frames = ExtResource("7")
-animation = &"isotopes"
 speed_scale = 0.0
 
 [node name="sonar" type="CPUParticles2D" parent="model/face/eye1" unique_id=848351228]

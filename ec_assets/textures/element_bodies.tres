@@ -233,6 +233,8 @@
 [ext_resource type="Texture2D" uid="uid://c1fow0205wdub" path="res://ec_assets/textures/cattos/rebirth/elements/ellie.png" id="231_6lorj"]
 [ext_resource type="Texture2D" uid="uid://dpf0b45sq0ddu" path="res://ec_assets/textures/cattos/rebirth/elements/novorovsk.png" id="232_ay30f"]
 [ext_resource type="Texture2D" uid="uid://cyj4uc2gek0ku" path="res://ec_assets/textures/cattos/rebirth/elements/jawari.png" id="233_khhx2"]
+[ext_resource type="Texture2D" uid="uid://b57d0v4mw4ulo" path="res://ec_assets/textures/cattos/rebirth/elements/anuka.png" id="234_v46c0"]
+[ext_resource type="Texture2D" uid="uid://8a06h18odxjy" path="res://ec_assets/textures/cattos/rebirth/elements/albara.png" id="235_tllnb"]
 
 [resource]
 animations = [{
@@ -963,6 +965,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("233_khhx2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("234_v46c0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("235_tllnb")
 }],
 "loop": true,
 "name": &"rebirth",

@@ -25,8 +25,8 @@ var densities = [0.1,0.09,0.18,530,1845,2300,2000,1.25,1.43,1.7,0.9,970,1737,270
 var main_isotopes = [0,1,4,7,9,11,12,14,16,19,20,23,24,27,28,31,32,35,40,39,40,45,48,51,52,55,56,59,58,63,64,69,74,75,80,79,84,85,88,89,90,93,98,99,102,103,106,107,114,115,120,121,130,127,132,133,138,139,140,141,142,147,152,153,158,159,164,165,166,169,174,175,180,181,184,187,192,193,195,197,202,205,208,209,210,219,222,223,226,227,232,231,238,237,244,241,247,247,251,252,257,258,259,266,267,268,269,270,271,278,281,282,285,286,289,290,293,294,294,295,295]
 var type = "nonmetal"
 var group = "hydrogen"
-var reb_elements = ["Strattys","Ellie","Novorovsk","Jawari"]
-var reb_symbols = ["Sy","El","Nv","Jw"]
+var reb_elements = ["Strattys","Ellie","Novorovsk","Jawari","Anuka","Albara"]
+var reb_symbols = ["Sy","El","Nv","Jw","An","Ab"]
 var atoms = 2
 var protons = 1
 var electrons = 1
@@ -134,12 +134,14 @@ func _process(delta: float) -> void:
 	$info/type.text = group + " (" + state + ")"
 	$info/density.text = "density: " + str(snapped(density,0.01)) + " kg/m^3"
 	
-	if protons == 161: reb_index = 0
+	$info/halflife.visible = glob.weakforce
+	
+	if protons == 161: reb_index = 0 #rbc indexes
 	if protons == 162: reb_index = 1
 	if protons == 163: reb_index = 2
 	if protons == 164: reb_index = 3
-	
-	$info/halflife.visible = glob.weakforce
+	if protons == 165: reb_index = 4
+	if protons == 166: reb_index = 5
 	
 	#lag prevention
 	#if protons < 0 or delta > 0.5:
@@ -600,7 +602,7 @@ func _physics_process(delta: float) -> void:
 		if !petted:
 			if group == "noble gas" or protons in [15,27,38]: mouth = 1
 			elif [protons,mass] in [[33,72],[42,95]]: mouth = 1
-			elif protons in [3,33,55,87,96,102,106,164] or [protons,mass] == [79,195]: mouth = 2
+			elif protons in [3,33,55,87,96,102,106,164,166] or [protons,mass] == [79,195]: mouth = 2 #rbc mouths
 			elif protons == 42 and mass != 92: mouth = 2
 			elif protons == 60 and mass == 163: mouth = 2
 			elif protons == 56 and mass == 154: mouth = 3
@@ -612,7 +614,7 @@ func _physics_process(delta: float) -> void:
 	$model/face/mouth.frame = mouth
 	
 	#fangs
-	$model/face/mouth/fangs.visible = (group == "halogen" or protons == 117 or protons == 418) and $model/face/mouth.frame == 0
+	$model/face/mouth/fangs.visible = (group == "halogen" or protons == 117 or protons in [165,418]) and $model/face/mouth.frame == 0
 	$model/body/ca_fangs.visible = protons == 20
 	if [protons,mass] == [20,47]: $model/body/ca_fangs.frame = 1
 	elif [protons,mass] == [20,48]: $model/body/ca_fangs.frame = 2
@@ -831,12 +833,16 @@ func _physics_process(delta: float) -> void:
 								$model/face/pupils.visible = false
 						if $model/face/eye3.visible:
 							$model/face/eye3.play("happy")
-						match protons:
+						match protons: #rbc pets reactions
 							33: # arsenic
 								$hiss.play()
 								$model/face/eye1.play("shut")
 								mouth = 2
 							164: # jawari
+								$hiss.play()
+								$model/face/eye1.play("shut")
+								mouth = 2
+							165: # anuka
 								$hiss.play()
 								$model/face/eye1.play("shut")
 								mouth = 2
@@ -961,7 +967,7 @@ func generate_features():
 	elif protons == 113: eye1 = 53
 	elif protons == 116: eye1 = 54
 	elif protons == 120: eye1 = 55
-	elif protons == 161:
+	elif protons == 161: #rbc faces
 		$model/face/eye1.play("rebirth")
 		$model/face/eye2.play("rebirth")
 		eye1 = 1
@@ -981,6 +987,16 @@ func generate_features():
 		$model/face/eye2.play("rebirth")
 		$model/face/mouth.play("default")
 		eye1 = 0
+		mouth = 2
+	elif protons == 165:
+		$model/face/eye1.play("default")
+		$model/face/eye2.play("default")
+		eye1 = 20
+	elif protons == 166:
+		$model/face/eye1.play("default")
+		$model/face/eye2.play("default")
+		$model/face/mouth.play("default")
+		eye1 = 2
 		mouth = 2
 	else: eye1 = 0
 	if protons in [25,85,101,109,114]: 
@@ -1128,7 +1144,7 @@ func update():
 		else:
 			$model/body.play("default")
 			$model/body.frame = protons
-	elif protons in [161,162,163,164]:
+	elif protons in [161,162,163,164,165,166]: #all rbc
 			$model/body.play("rebirth")
 			$model/body.frame = reb_index
 	else: 
@@ -1137,7 +1153,7 @@ func update():
 	if protons <= $nucleus/body.sprite_frames.get_frame_count("default")-1:
 		$nucleus/body.play("default")
 		$nucleus/body.frame = protons
-	elif protons in [161,162,163,164]:
+	elif protons in [161,162,163,164,165,166]: #all rbc
 		$nucleus/body.play("rebirth")
 		$nucleus/body.frame = reb_index
 	else:
@@ -1159,7 +1175,7 @@ func update():
 	elif protons in [8,16,34,52,84]: group = "chalcogen"
 	elif protons in [9,17,35,53,85]: group = "halogen"
 	elif protons in [2,10,18,36,54,86]: group = "noble gas"
-	elif protons in [161,162,163,164]: group = "?-tinide"
+	elif protons in [161,162,163,164,165,166]: group = "?-tinide" #all rbc
 	elif protons == 1: group = "nonmetal"
 	elif protons == 0: group = "exotic element"
 	elif protons < 95: group = "transition metal"
@@ -1255,8 +1271,8 @@ func update():
 			halflife = 0.0007
 		else: halflife = INF
 	elif protons <= 118 and nuclidemap_value == 1: halflife = INF
-	elif protons in [161,163,164]: halflife = INF
-	elif protons == 162: halflife = 86400*365.25*62
+	elif protons in [161,163,164,165,166]: halflife = INF #all stable rbc
+	elif protons == 162: halflife = 86400*365.25*62 #all unstable rbc
 	else: halflife = 0.1/mass
 	
 	#radiation color
@@ -1290,7 +1306,7 @@ func update():
 		$col_body.position.y = 4
 	
 	#info
-	if protons <= 120 or protons in [161,162,163,164] and protons >= 0: 
+	if protons <= 120 or protons in [161,162,163,164,165,166] and protons >= 0: #all rbc
 		if antimuons == 0 or protons == 0:
 			if protons <= 120:
 				$info/name.text = elements[protons]
@@ -1970,7 +1986,7 @@ func update():
 	elif protons == 64: 
 		if eye1 == 1: $model/face/eye1.self_modulate.v = 0.75
 	else: 
-		if (eye1 == 1 or protons > 120) and !(protons in [161,162,164]): $model/face/eye1.self_modulate.v = 0
+		if (eye1 == 1 or protons > 120) and !(protons in [161,162,164,165,166]): $model/face/eye1.self_modulate.v = 0 #all rbc with eyes open
 		else: $model/face/eye1.self_modulate.v = 1
 	$model/face/eye2.self_modulate.v = $model/face/eye1.self_modulate.v
 	$nucleus/face/eye1.self_modulate.v = $model/face/eye1.self_modulate.v
@@ -2085,8 +2101,8 @@ func update():
 	else: credit = "Oberorka"
 	
 	$credit.visible = electrons > 0
-	if protons > 118 and !(protons in [161,162,163,164]): note = "In real life, this element has yet to be discovered.\nIt has a systematic name that quite literally means ''" + str(protons) + "-ium''."
-	else: note = ""
+	if protons > 118 and !(protons in [161,162,163,164,165,166]): note = "In real life, this element has yet to be discovered.\nIt has a systematic name that quite literally means ''" + str(protons) + "-ium''."
+	else: note = "" # all rbc ^
 	if protons > 120: $credit.tooltip_text = note
 	else: $credit.tooltip_text = "design by " + credit + "\n\n" + note
 	
@@ -2232,7 +2248,7 @@ func _on_body_entered(body):
 					$model/face/eye1.play("happy")
 				if protons in [97,117] and body.protons in [97,117]:
 					$model/face/eye1.play("happy")	
-				if protons == 161 and body.protons == 162:
+				if protons == 161 and body.protons == 162: #rbc relationships go here
 					$model/face/eye2.play("happy")	
 				if protons == 162 and body.protons == 161:
 					$model/face/eye1.play("happy")	
@@ -2330,7 +2346,7 @@ func _on_range_body_entered(body):
 			if glob.tool == 6: attractor = body
 			if group != "noble gas" and glob.catto_ai == true:
 				if glob.tool in [1,7] and protons > 1: disinterest = body
-				if glob.tool == 8 and protons in [3,11,19,27,33,37,164]:
+				if glob.tool == 8 and protons in [3,11,19,27,33,37,164]: #rbc runs away from pets
 					match protons:
 						3, 11, 19, 27, 37:
 							if pet_num < pet_thresh:
@@ -2396,7 +2412,11 @@ func _on_range_body_entered(body):
 							if protons <= 118:
 								$model/face/facetext.text = "HI " + symbols[body.protons]
 				else:
-					if protons == 163 and body.protons in [161,162,164]:
+					if protons == 163 and body.protons in [161,162,164]: #rbc running away and shit here
+						interest = body
+					if protons == 166 and body.protons == 165:
+						disinterest = body
+					if protons == 165 and body.protons == 166:
 						interest = body
 					if protons == 33:
 						if mass == 75 and body.mass != 75: 

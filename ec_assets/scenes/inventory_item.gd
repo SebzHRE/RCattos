@@ -39,6 +39,16 @@ func _process(_delta):
 					spawn_catto(164,248,0,3)
 				else:
 					spawn_catto(164,248,164,3)
+			"an": 
+				if(glob.spawn_nucleus):
+					spawn_catto(165,252,0,4)
+				else:
+					spawn_catto(165,252,165,4)
+			"ab": 
+				if(glob.spawn_nucleus):
+					spawn_catto(166,252,0,5)
+				else:
+					spawn_catto(166,252,166,5)
 			"proton": spawn_catto(1,0,0,0)
 			"neutron": spawn_particle("neutron")
 			"electron": spawn_particle("electron")

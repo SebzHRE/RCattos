@@ -119,6 +119,7 @@
 [ext_resource type="Texture2D" uid="uid://dgbshg6qp8o1u" path="res://ec_assets/textures/cattos/eye2_tl201.png" id="113_dx3pi"]
 [ext_resource type="Texture2D" uid="uid://1n77asd73m7l" path="res://ec_assets/textures/cattos/eye_eu158.png" id="114_gjc41"]
 [ext_resource type="Texture2D" uid="uid://vpr6ea4nr364" path="res://ec_assets/textures/cattos/rebirth/eye_ellie.png" id="117_wb5po"]
+[ext_resource type="Texture2D" uid="uid://db06xxdaxikvh" path="res://ec_assets/textures/cattos/rebirth/eye_normal-scared.png" id="118_54ich"]
 
 [resource]
 animations = [{
@@ -497,6 +498,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("117_wb5po")
+}, {
+"duration": 1.0,
+"texture": ExtResource("118_54ich")
 }],
 "loop": true,
 "name": &"rebirth",
