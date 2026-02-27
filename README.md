@@ -5,3 +5,7 @@ This repository acts as an archive of this game starting from version Alpha 0.13
 
 This branch contains my modded code for version 0.13a!
 Branches with _4.1.1 as of now are original decomps of the executable, while those without it are ports to the latest Godot version.
+
+# Rebirth Cattos Mod
+
+blatant self-insert of the above
